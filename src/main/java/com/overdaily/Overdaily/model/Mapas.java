@@ -15,7 +15,7 @@ public class Mapas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", columnDefinition = "TINYINT")
-    private short ID;
+    private Short ID;
 
     @Column(name = "Tipo_Mapa", nullable = false)
     private String TipoMapa;
@@ -27,7 +27,7 @@ public class Mapas {
     private String DescricaoMapa;
 
     @Column(name = "Season_Mapa", nullable = false, columnDefinition = "TINYINT")
-    private int SeasonMapa;
+    private Integer SeasonMapa;
 
     @Column(name = "Versao_OW", nullable = false)
     private String VersaoOW;

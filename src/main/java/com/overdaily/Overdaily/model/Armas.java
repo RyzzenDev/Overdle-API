@@ -16,7 +16,7 @@ public class Armas {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "ID", columnDefinition = "TINYINT")
-    private short ID;
+    private Short ID;
 
     @Column(name = "Personagem_Arma", nullable = false)
     private String PersonagemArma;
@@ -28,16 +28,16 @@ public class Armas {
     private String TipoArma;
 
     @Column(name = "Tipo_Tiro", nullable = false)
-    private int TipoTiro;
+    private String TipoTiro;
 
     @Column(name = "Dano_Arma", nullable = false)
-    private int DanoArma;
+    private Integer DanoArma;
 
     @Column(name = "Headshot", nullable = false, columnDefinition = "TINYINT")
-    private int Headshot;
+    private Integer Headshot;
 
     @Column(name = "Municao", nullable = false)
-    private int Municao;
+    private Integer Municao;
 
     @Column(name = "Som_Arma", nullable = false)
     private String SomArma;
