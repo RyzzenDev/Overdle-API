@@ -15,7 +15,8 @@ public class Armas {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int ID;
+    @Column(name = "ID", columnDefinition = "TINYINT")
+    private short ID;
 
     @Column(name = "Personagem_Arma", nullable = false)
     private String PersonagemArma;

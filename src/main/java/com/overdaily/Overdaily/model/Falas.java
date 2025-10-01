@@ -15,7 +15,7 @@ public class Falas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", columnDefinition = "TINYINT")
-    private int ID;
+    private short ID;
 
     @Column(name = "Personagem_Fala", nullable = false)
     private String PersonagemFala;
