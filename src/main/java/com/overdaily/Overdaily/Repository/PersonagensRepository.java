@@ -18,6 +18,6 @@ public interface PersonagensRepository extends JpaRepository <Personagens, Short
     List<Personagens> findByNomeRealAgente(String nomeRealAgente);
     List<Personagens> findByTipoAgente(String tipoAgente);
     List<Personagens> findByPaisAgente(String paisAgente);
-    findBy
+
 
 }

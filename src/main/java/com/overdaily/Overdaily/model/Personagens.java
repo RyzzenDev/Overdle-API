@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Personagens {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "ID", columnDefinition = "TINYINT")
     private Short id;
 

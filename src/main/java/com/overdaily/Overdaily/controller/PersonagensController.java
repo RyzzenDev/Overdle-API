@@ -2,7 +2,7 @@ package com.overdaily.Overdaily.controller;
 
 
 import com.overdaily.Overdaily.model.Personagens;
-import com.overdaily.Overdaily.service.PersonagensService;
+import com.overdaily.Overdaily.Service.PersonagensService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

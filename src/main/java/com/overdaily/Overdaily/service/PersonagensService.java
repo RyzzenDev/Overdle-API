@@ -1,4 +1,4 @@
-package com.overdaily.Overdaily.service;
+package com.overdaily.Overdaily.Service;
 
 import com.overdaily.Overdaily.Repository.PersonagensRepository;
 import com.overdaily.Overdaily.model.Personagens;
@@ -16,6 +16,7 @@ public class PersonagensService {
 
     public Optional<Personagens> findById(Short id) {
         return personagensRepository.findById(id);
+
     }
 
     public List<Personagens> pegarTodos() {
