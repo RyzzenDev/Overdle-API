@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "habilidades")
 
-public class Habilidades {
+public class Habilidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

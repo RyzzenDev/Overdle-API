@@ -1,7 +1,7 @@
 package com.overdaily.Overdaily.Service;
 
-import com.overdaily.Overdaily.Repository.PersonagensRepository;
-import com.overdaily.Overdaily.model.Personagens;
+import com.overdaily.Overdaily.Repository.PersonagemRepository;
+import com.overdaily.Overdaily.model.Personagem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,21 +9,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonagensService {
+public class PersonagemService {
 
     @Autowired
-    private PersonagensRepository personagensRepository;
+    private PersonagemRepository personagensRepository;
 
-    public Optional<Personagens> findById(Short id) {
+    public Optional<Personagem> findById(Long id) {
         return personagensRepository.findById(id);
 
     }
 
-    public List<Personagens> pegarTodos() {
+    public List<Personagem> pegarTodos() {
         return personagensRepository.findAll();
     }
 
-    public List<Personagens> getPersonagensByTipoAgente(String tipoAgente) {
+    public List<Personagem> getPersonagensByTipoAgente(String tipoAgente) {
         return personagensRepository.findByTipoAgente(tipoAgente);
     }
 

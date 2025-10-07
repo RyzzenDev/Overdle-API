@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "Personagens")
+@Table(name = "personagens")
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Personagens {
+public class Personagem {
 
     @Id
 
-    @Column(name = "ID", columnDefinition = "TINYINT")
-    private Short id;
+    @Column(name = "ID")
+    private Long id;
 
     @Column(name = "Nome_Agente", nullable = false)
     private String nomeAgente;
@@ -46,17 +46,17 @@ public class Personagens {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Arma_Agente", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Armas armaAgente;
+    private Arma armaAgente;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Habilidade_Agente", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Habilidades habilidadeAgente;
+    private Habilidade habilidadeAgente;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Falas_Agente", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Falas falasAgente;
+    private Fala falasAgente;
 
     @Column(name = "Season_Agente", nullable = false)
     private Short seasonAgente;

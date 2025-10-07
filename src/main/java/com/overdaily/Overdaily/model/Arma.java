@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "armas")
 
-public class Armas {
+public class Arma {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

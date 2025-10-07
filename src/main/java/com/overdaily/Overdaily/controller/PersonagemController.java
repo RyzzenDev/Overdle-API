@@ -1,8 +1,8 @@
-package com.overdaily.Overdaily.controller;
+package com.overdaily.Overdaily.Controller;
 
 
-import com.overdaily.Overdaily.model.Personagens;
-import com.overdaily.Overdaily.Service.PersonagensService;
+import com.overdaily.Overdaily.model.Personagem;
+import com.overdaily.Overdaily.Service.PersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +15,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/personagens")
 
-public class PersonagensController {
+public class PersonagemController {
 
     @GetMapping()
-    public List<Personagens> pegarTodos() {
+    public List<Personagem> pegarTodos() {
         return personagensService.pegarTodos();
     }
 
@@ -49,18 +49,18 @@ public class PersonagensController {
 
 
     @Autowired
-    private PersonagensService personagensService;
+    private PersonagemService personagensService;
 
 
     @GetMapping("/{id}")
-    public Optional<Personagens> getPersonagem(@PathVariable Short id) {
+    public Optional<Personagem> getPersonagem(@PathVariable Long id) {
 
         System.out.println("Buscando o id: " + id);
         return personagensService.findById(id);
     }
 
     @GetMapping("/tipoAgente/{id}")
-    public List<Personagens> getPersonagemTipo(@PathVariable String tipoAgente) {
+    public List<Personagem> getPersonagemTipo(@PathVariable String tipoAgente) {
         return personagensService.getPersonagensByTipoAgente(tipoAgente);
     }
 

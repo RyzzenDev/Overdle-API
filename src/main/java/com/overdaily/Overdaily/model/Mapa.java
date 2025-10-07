@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "mapas")
 
-public class Mapas {
+public class Mapa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
