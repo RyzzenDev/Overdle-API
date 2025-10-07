@@ -1,4 +1,4 @@
-package com.overdaily.Overdaily.Service;
+package com.overdaily.Overdaily.service;
 
 import org.springframework.stereotype.Service;
 

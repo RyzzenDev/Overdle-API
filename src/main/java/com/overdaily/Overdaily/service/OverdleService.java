@@ -1,7 +1,8 @@
-package com.overdaily.Overdaily.Service;
+package com.overdaily.Overdaily.service;
 
 import com.overdaily.Overdaily.Repository.PersonagemRepository;
 import com.overdaily.Overdaily.model.Personagem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -10,19 +11,30 @@ import java.util.Random;
 @Service
 public class OverdleService {
 
-    PersonagemRepository personagemRepository;
-    Personagem personagem;
+    private final PersonagemRepository personagemRepository;
 
+    private  Personagem personagemDoDia;
+
+    public OverdleService(PersonagemRepository personagemRepository) {
+        this.personagemRepository = personagemRepository;
+        this.personagemDoDia = new Personagem();
+    }
 
     public Optional<Personagem> PersonagemOFTD (){
-        Long id;
         Random NumeroRandom = new Random();
-        id = NumeroRandom.nextLong(personagemRepository.count());
-        System.out.println(id);
-        Personagem personagemdodia =new Personagem();
-        personagemdodia.setId(id);
-
-        return personagemRepository.findById(personagemdodia.getId());
+        int id = NumeroRandom.nextInt(3);
+        personagemDoDia.setId(id);
+        return personagemRepository.findById(personagemDoDia.getId());
     }
+
+    public Optional<Personagem> CompareIdade(){
+
+
+        return null;
+    }
+
+
+
+
 
 }

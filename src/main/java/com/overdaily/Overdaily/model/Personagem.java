@@ -16,7 +16,7 @@ public class Personagem {
 
     @Id
     @Column(name = "ID")
-    private Long id;
+    private Integer id;
 
     @Column(name = "Nome_Agente", nullable = false)
     private String nomeAgente;

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PersonagemRepository extends JpaRepository <Personagem, Long>{
+public interface PersonagemRepository extends JpaRepository <Personagem, Integer>{
     //aqui todo repository sem excessao tem que ser uma INTERFACE por causa q ela extende JpaRepository
     //no extends JpaRepository<Personagens, Short>  O PERSONAGENS VAI SER O OBJETO (CHAVE) o Short vai ser o value (id)
     //vc pode puxar por qualquer parametro que conter no seu modelo, nome, id, etc...
