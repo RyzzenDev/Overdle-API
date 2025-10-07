@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class Personagem {
 
     @Id
-
     @Column(name = "ID")
     private Long id;
 
