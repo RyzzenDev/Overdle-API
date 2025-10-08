@@ -53,7 +53,7 @@ public class PersonagemController {
 
 
     @GetMapping("/{id}")
-    public Optional<Personagem> getPersonagem(@PathVariable Long id) {
+    public Optional<Personagem> getPersonagem(@PathVariable Integer id) {
 
         System.out.println("Buscando o id: " + id);
         return personagensService.findById(id);

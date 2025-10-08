@@ -17,7 +17,7 @@ public class Arma {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "ID", columnDefinition = "TINYINT")
-    private Short ID;
+    private Integer id;
 
     @Column(name = "Personagem_Arma", nullable = false)
     private String PersonagemArma;

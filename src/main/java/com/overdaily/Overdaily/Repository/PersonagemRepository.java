@@ -13,11 +13,12 @@ public interface PersonagemRepository extends JpaRepository <Personagem, Integer
     //no extends JpaRepository<Personagens, Short>  O PERSONAGENS VAI SER O OBJETO (CHAVE) o Short vai ser o value (id)
     //vc pode puxar por qualquer parametro que conter no seu modelo, nome, id, etc...
 
-    Optional<Personagem> findById(Long id);
+    Optional<Personagem> findById(Integer ID);
     List<Personagem> findAll();
     List<Personagem> findByNomeRealAgente(String nomeRealAgente);
     List<Personagem> findByTipoAgente(String tipoAgente);
     List<Personagem> findByPaisAgente(String paisAgente);
 
 
+    Personagem findById(Personagem personagem);
 }

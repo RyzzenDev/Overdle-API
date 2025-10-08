@@ -14,7 +14,7 @@ public class PersonagemService {
     @Autowired
     private PersonagemRepository personagensRepository;
 
-    public Optional<Personagem> findById(Long id) {
+    public Optional<Personagem> findById(Integer id) {
         return personagensRepository.findById(id);
 
     }
