@@ -1,4 +1,4 @@
-package com.overdaily.Overdaily.service;
+package com.overdaily.Overdaily.Service;
 
 import com.overdaily.Overdaily.Repository.*;
 import com.overdaily.Overdaily.model.*;
@@ -19,8 +19,8 @@ public class OverdleService {
     private final PersonagemRepository personagemRepository;
     private final Personagem personagemDoDia;
 
-    List<Integer> Daily = new ArrayList<>();
 
+    /// serviço aleatorizador
     public OverdleService(PersonagemRepository personagemRepository, ArmaRepository armaRepository, FalaRepository falaRepository, HabilidadeRepository habilidadeRepository, MapaRepository mapaRepository) {
         this.personagemRepository = personagemRepository;
         this.personagemDoDia = new Personagem();
@@ -37,17 +37,16 @@ public class OverdleService {
 
     public Optional<Personagem> PersonagemOFTD() {
         Random NumeroRandom = new Random();
-        int id = NumeroRandom.nextInt(3);
+        int id = NumeroRandom.nextInt((int) personagemRepository.count());
         personagemDoDia.setId(id);
-        Daily.add(0, id);
         return personagemRepository.findById(personagemDoDia.getId());
+
     }
 
     public Optional<Arma> ArmaOFTD() {
         Random NumeroRandom = new Random();
-        int id = NumeroRandom.nextInt(3);
+        int id = NumeroRandom.nextInt((int) armaRepository.count());
         armaDoDia.setId(id);
-        Daily.add(1, id);
         return armaRepository.findById(armaDoDia.getId());
     }
 
@@ -55,7 +54,6 @@ public class OverdleService {
         Random NumeroRandom = new Random();
         int id = NumeroRandom.nextInt(3);
         habilidadeDoDia.setId(id);
-        Daily.add(2, id);
         return habilidadeRepository.findById(habilidadeDoDia.getId());
     }
 
@@ -63,7 +61,6 @@ public class OverdleService {
         Random NumeroRandom = new Random();
         int id = NumeroRandom.nextInt(3);
         falaDoDia.setId(id);
-        Daily.add(3, id);
         return falaRepository.findById(falaDoDia.getId());
     }
 
@@ -71,28 +68,52 @@ public class OverdleService {
         Random NumeroRandom = new Random();
         int id = NumeroRandom.nextInt(3);
         mapaDoDia.setId(id);
-        Daily.add(id);
         return mapaRepository.findById(mapaDoDia.getId());
     }
 
     public Optional<Personagem> TrazerPersonagem() {
-        return personagemRepository.findById(Daily.get(0));
+        return personagemRepository.findById(personagemDoDia.getId());
     }
 
     public Optional<Arma> TrazerArma() {
-        return armaRepository.findById(Daily.get(1));
+        return armaRepository.findById(armaDoDia.getId());
 
     }
     public Optional<Habilidade> TrazerHabilidade() {
-        return habilidadeRepository.findById(Daily.get(2));
+        return habilidadeRepository.findById(habilidadeDoDia.getId());
     }
 
     public Optional<Fala> TrazerFala() {
-        return falaRepository.findById(Daily.get(3));
+        return falaRepository.findById(falaDoDia.getId());
     }
 
     public Optional<Mapa> TrazerMapa() {
-        return mapaRepository.findById(Daily.get(4));
+        return mapaRepository.findById(mapaDoDia.getId());
     }
 
+ /*
+    public String CheckIdade(int HeroGuess) {
+        String Check;
+        Personagem personagem = new Personagem();
+        personagem.setId(HeroGuess);
+        personagemRepository.findById(HeroGuess).get(personagem.getIdadeAgente());
+        personagem.setIdadeAgente();
+
+        if (Objects.equals(personagem.getIdadeAgente(), personagemDoDia.getIdadeAgente()))
+        {
+            Check = "Correto";
+
+        }else {
+
+            Check = "Errado";
+        }
+
+
+        return Check;
+
+    }
+
+  */
 }
+
+

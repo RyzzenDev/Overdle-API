@@ -2,12 +2,9 @@ package com.overdaily.Overdaily.Controller;
 
 
 import com.overdaily.Overdaily.model.*;
-import com.overdaily.Overdaily.service.OverdleService;
+import com.overdaily.Overdaily.Service.OverdleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -74,5 +71,14 @@ public class OverdleController {
     public Optional<Mapa> TrazerMap() {
         return overdleService.TrazerMapa();
     }
+
+    /*
+    @PostMapping("/Guess/Age/{HeroGuess}")
+    public String GuessIdade(@PathVariable int HeroGuess){
+
+        return overdleService.CheckIdade(HeroGuess);
+    }
+
+     */
 
 }

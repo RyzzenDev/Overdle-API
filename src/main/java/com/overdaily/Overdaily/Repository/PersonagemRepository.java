@@ -19,6 +19,5 @@ public interface PersonagemRepository extends JpaRepository <Personagem, Integer
     List<Personagem> findByTipoAgente(String tipoAgente);
     List<Personagem> findByPaisAgente(String paisAgente);
 
-
     Personagem findById(Personagem personagem);
 }
