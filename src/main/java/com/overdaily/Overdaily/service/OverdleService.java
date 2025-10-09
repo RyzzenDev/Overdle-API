@@ -1,4 +1,4 @@
-package com.overdaily.Overdaily.Service;
+package com.overdaily.Overdaily.service;
 
 import com.overdaily.Overdaily.Repository.*;
 import com.overdaily.Overdaily.model.*;
@@ -37,7 +37,7 @@ public class OverdleService {
 
     public Optional<Personagem> PersonagemOFTD() {
         Random NumeroRandom = new Random();
-        int id = NumeroRandom.nextInt((int) personagemRepository.count());
+        int id = NumeroRandom.nextInt(3);
         personagemDoDia.setId(id);
         return personagemRepository.findById(personagemDoDia.getId());
 
@@ -91,29 +91,19 @@ public class OverdleService {
         return mapaRepository.findById(mapaDoDia.getId());
     }
 
- /*
+
     public String CheckIdade(int HeroGuess) {
         String Check;
-        Personagem personagem = new Personagem();
-        personagem.setId(HeroGuess);
-        personagemRepository.findById(HeroGuess).get(personagem.getIdadeAgente());
-        personagem.setIdadeAgente();
-
-        if (Objects.equals(personagem.getIdadeAgente(), personagemDoDia.getIdadeAgente()))
-        {
+        int idadeAgente = personagemRepository.findById(HeroGuess).get().getIdadeAgente();
+        if (Objects.equals(idadeAgente, personagemRepository.findById(personagemDoDia.getId()).get().getIdadeAgente())) {
             Check = "Correto";
-
-        }else {
-
-            Check = "Errado";
         }
-
-
+        else {
+            Check = "Errou";
+        }
         return Check;
-
     }
 
-  */
 }
 
 
