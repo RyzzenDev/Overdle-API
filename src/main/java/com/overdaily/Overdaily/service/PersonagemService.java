@@ -91,7 +91,7 @@ public class PersonagemService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String timeFormatted = time.format(formatter);
 
-        return "Hero Selected at: " +timeFormatted;
+        return " Hero Selected at: " +timeFormatted;
     }
 
     public String checkName(int guessedHero) {
