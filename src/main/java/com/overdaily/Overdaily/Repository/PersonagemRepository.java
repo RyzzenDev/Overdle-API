@@ -9,15 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface PersonagemRepository extends JpaRepository <Personagem, Integer>{
-    //aqui todo repository sem excessao tem que ser uma INTERFACE por causa q ela extende JpaRepository
-    //no extends JpaRepository<Personagens, Short>  O PERSONAGENS VAI SER O OBJETO (CHAVE) o Short vai ser o value (id)
-    //vc pode puxar por qualquer parametro que conter no seu modelo, nome, id, etc...
 
-    Optional<Personagem> findById(Integer ID);
+    Optional<Personagem> findById(Integer Id);
     List<Personagem> findAll();
-    List<Personagem> findByNomeRealAgente(String nomeRealAgente);
-    List<Personagem> findByTipoAgente(String tipoAgente);
-    List<Personagem> findByPaisAgente(String paisAgente);
-
-    Personagem findById(Personagem personagem);
 }

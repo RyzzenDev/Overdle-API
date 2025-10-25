@@ -35,7 +35,7 @@ public class Arma {
     private Integer DanoArma;
 
     @Column(name = "Headshot", nullable = false, columnDefinition = "TINYINT")
-    private Integer Headshot;
+    private String Headshot;
 
     @Column(name = "Municao", nullable = false)
     private Integer Municao;

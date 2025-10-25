@@ -17,51 +17,54 @@ import lombok.NoArgsConstructor;
 public class Personagem {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "Nome_Agente", nullable = false)
+    @Column(name = "afiliacao_agente", nullable = false)
+    private String afiliacaoAgente;
+
+    @Column(name = "nome_agente", nullable = false)
     private String nomeAgente;
 
-    @Column(name = "Nome_Real_Agente", nullable = false)
+    @Column(name = "nome_real_agente", nullable = false)
     private String nomeRealAgente;
 
-    @Column(name = "Foto_Agente", nullable = false)
+    @Column(name = "foto_agente", nullable = false)
     private String fotoAgente;
 
-    @Column(name = "Vida_Agente", nullable = false)
+    @Column(name = "vida_agente", nullable = false)
     private Integer vidaAgente;
 
-    @Column(name = "Idade_Agente", nullable = false)
+    @Column(name = "idade_agente", nullable = false)
     private Short idadeAgente;
 
-    @Column(name = "Sexo_Agente", nullable = false)
-    private String sexoAgente;
+    @Column(name = "genero_agente", nullable = false)
+    private String generoAgente;
 
-    @Column(name = "Pais_Agente", nullable = false)
+    @Column(name = "pais_agente", nullable = false)
     private String paisAgente;
 
-    @Column(name = "Tipo_Agente", nullable = false)
+    @Column(name = "tipo_agente", nullable = false)
     private String tipoAgente;
 
+    @Column(name = "comp_agente", nullable = false)
+    private String compAgente;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Arma_Agente", nullable = false)
+    @JoinColumn(name = "arma_agente", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Arma armaAgente;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Habilidade_Agente", nullable = false)
+    @JoinColumn(name = "habilidade_agente", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Habilidade habilidadeAgente;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Falas_Agente", nullable = false)
+    @JoinColumn(name = "falas_agente", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Fala falasAgente;
 
-    @Column(name = "Season_Agente", nullable = false)
-    private Short seasonAgente;
-
-    @Column(name = "Versao_OW", nullable = false)
-    private String versaoOw;
+    @Column(name = "ano_agente", nullable = false)
+    private Integer anoAgente;
 }

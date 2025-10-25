@@ -1,9 +1,9 @@
 package com.overdaily.Overdaily.Controller;
 
 
+import com.overdaily.Overdaily.DTO.ServerGuessResponseDTO;
 import com.overdaily.Overdaily.model.*;
 import com.overdaily.Overdaily.service.OverdleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -21,12 +21,10 @@ public class OverdleController {
 
     @GetMapping("/Randomize/Hero")
     public Optional<Personagem> RandomPersonagem(){
-
         return overdleService.PersonagemOFTD();
     }
     @GetMapping("/Randomize/Gun")
     public Optional<Arma> RandomGun(){
-
         return overdleService.ArmaOFTD();
     }
 
@@ -73,11 +71,6 @@ public class OverdleController {
     }
 
 
-    @PostMapping("/Guess/Age/{HeroGuess}")
-    public String GuessIdade(@PathVariable int HeroGuess){
-
-        return overdleService.CheckIdade(HeroGuess);
-    }
 
 
 
