@@ -78,9 +78,7 @@ public class OverdleService {
 
     public Optional<Arma> TrazerArma() {
         return armaRepository.findById(armaDoDia.getId());
-
     }
-
     public Optional<Habilidade> TrazerHabilidade() {
         return habilidadeRepository.findById(habilidadeDoDia.getId());
     }
@@ -93,111 +91,7 @@ public class OverdleService {
         return mapaRepository.findById(mapaDoDia.getId());
     }
 
-    public String checkName(int guessedHero) {
-    String check;
-    String guessedName = personagemRepository.findById(guessedHero).get().getNomeAgente();
-    String correctName = personagemRepository.findById(personagemDoDia.getId()).get().getNomeAgente();
-
-    if (guessedName.equals(correctName)) {
-        check = "Correct";
-    } else {
-        check = "Wrong";
     }
-    return check;
-
-    }
-
-    public String checkGender(int guessedHero){
-        String check;
-        String guessedGender = personagemRepository.findById(guessedHero).get().getGeneroAgente();
-        String correctGender = personagemRepository.findById(personagemDoDia.getId()).get().getGeneroAgente();
-        if (guessedGender.equals(correctGender)) {
-            check = "Correct";
-        } else {
-            check = "Wrong";
-        }
-        return check;
-
-    }
-
-    public String checkHealth(int guessedHero){
-        String check;
-        int guessedHealth = personagemRepository.findById(guessedHero).get().getVidaAgente();
-        int correctHealth = personagemRepository.findById(personagemDoDia.getId()).get().getVidaAgente();
-        if (guessedHealth == correctHealth) {
-            check = "Correct";
-        } else {
-            check = "Wrong";
-        }
-        return check;
-
-    }
-
-    public String checkAge(int guessedHero) {
-        int GuessedHeroAge = personagemRepository.findById(guessedHero).get().getIdadeAgente();
-        int CorrectHeroAge = personagemRepository.findById(personagemDoDia.getId()).get().getIdadeAgente();
-        String Check;
-
-        if (GuessedHeroAge == CorrectHeroAge) {
-            Check = "Correct";
-        } else if (GuessedHeroAge < CorrectHeroAge) {
-            Check = "Younger";
-        }else {
-            Check = "Older";
-        }
-        return Check;
-    }
-
-    public String checkRole(int guessedHero) {
-        String guessedRole = personagemRepository.findById(guessedHero).get().getTipoAgente();
-        String correctRole = personagemRepository.findById(personagemDoDia.getId()).get().getTipoAgente();
-        String check;
-
-        if (guessedRole.equals(correctRole)) {
-             check = "Correct";
-        }
-        else {
-             check = "Wrong";
-        }
-        return check;
-    }
-
-    public String checkAffiliation(int guessedHero) {
-        String Check;
-        String GuessedAffiliation = personagemRepository.findById(guessedHero).get().getAfiliacaoAgente();
-        String CorrectAffiliation = personagemRepository.findById(personagemDoDia.getId()).get().getAfiliacaoAgente();
-            if (GuessedAffiliation.equals(CorrectAffiliation)) {
-                Check = "Correct";
-            }
-            else {
-                Check = "Younger";
-            }
-        return Check;
-
-            }
-
-    public ServerGuessResponseDTO checkTotal(int guessedHero){
-
-
-        String checkName = checkName(guessedHero);
-        String checkGender = checkGender(guessedHero);
-        String checkHealth = checkHealth(guessedHero);
-        String checkAge = checkAge(guessedHero);
-        String checkRole =checkRole(guessedHero);
-        String checkAffiliation = checkAffiliation(guessedHero);
-
-
-       return ServerGuessResponseDTO.builder()
-               .name(checkName)
-               .gender(checkGender)
-               .health(checkHealth)
-               .role(checkRole)
-               .age(checkAge)
-               .affiliation(checkAffiliation)
-               .build();
-
-    }
-}
 
 
 

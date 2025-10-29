@@ -50,6 +50,9 @@ public class Personagem {
     @Column(name = "comp_agente", nullable = false)
     private String compAgente;
 
+    @Column(name = "comp_agente_2", nullable = false)
+    private String compAgente2;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "arma_agente", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

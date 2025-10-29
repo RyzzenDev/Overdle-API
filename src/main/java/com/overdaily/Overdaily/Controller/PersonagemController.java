@@ -48,5 +48,4 @@ public class PersonagemController {
     public Personagem TrazerPersonagem(@PathVariable int id){
         return personagensService.TrazerPersonagem(id);
     }
-
 }

@@ -6,13 +6,13 @@ import com.overdaily.Overdaily.DTO.ServerGuessResponseDTO;
 import com.overdaily.Overdaily.Repository.PersonagemRepository;
 import com.overdaily.Overdaily.exceptions.Personagem.NonExistentID;
 import com.overdaily.Overdaily.model.Personagem;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class PersonagemService {
@@ -20,26 +20,32 @@ public class PersonagemService {
 
     private final PersonagemRepository personagensRepository;
     private final Personagem personagemDoDia;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    public PersonagemService(PersonagemRepository personagensRepository) {
+    public PersonagemService(PersonagemRepository personagensRepository, RedisTemplate<String, Object> redisTemplate) {
         this.personagensRepository = personagensRepository;
         this.personagemDoDia = new Personagem();
+        this.redisTemplate = redisTemplate;
     }
+
+    HashMap<Integer, String> SelectedHero = new HashMap<>();
+
+    int id;
 
     public HeroSearchDTO SearchID(Integer id) {
         Personagem personagembuscado = personagensRepository.findById(id)
-                .orElseThrow(()-> new NonExistentID(id));
+                .orElseThrow(() -> new NonExistentID(id));
         return new HeroSearchDTO(personagembuscado);
     }
 
     public List<ListHeroesDTO> IDList() {
         List<Personagem> HeroList = personagensRepository.findAll();
         return HeroList.stream()
-                .map(ListHeroesDTO::new )
+                .map(ListHeroesDTO::new)
                 .toList();
     }
 
-    public List<ListHeroesDTO> SearchRole(String heroType){
+    public List<ListHeroesDTO> SearchRole(String heroType) {
         List<Personagem> HeroList = personagensRepository.findAll();
 
         List<ListHeroesDTO> ListaBuscada = new java.util.ArrayList<>();
@@ -47,8 +53,8 @@ public class PersonagemService {
         String heroRole = heroType.toLowerCase();
 
 
-        switch (heroRole){
-            case "tank":{
+        switch (heroRole) {
+            case "tank": {
                 List<ListHeroesDTO> RoleTankList = HeroList.stream()
                         .filter(personagem -> "Tank".equals(personagem.getTipoAgente()))
                         .map(ListHeroesDTO::new)
@@ -58,7 +64,7 @@ public class PersonagemService {
                 return ListaBuscada;
 
             }
-            case "damage":{
+            case "damage": {
                 List<ListHeroesDTO> RoleDamageList = HeroList.stream()
                         .filter(personagem -> "Damage".equals(personagem.getTipoAgente()))
                         .map(ListHeroesDTO::new)
@@ -68,7 +74,7 @@ public class PersonagemService {
                 return ListaBuscada;
 
             }
-            case "support":{
+            case "support": {
                 List<ListHeroesDTO> RoleSupportList = HeroList.stream()
                         .filter(personagem -> "Support".equals(personagem.getTipoAgente()))
                         .map(ListHeroesDTO::new)
@@ -82,22 +88,53 @@ public class PersonagemService {
         return ListaBuscada;
     }
 
-    public String RandomizeID(){
+    public Personagem TrazerPersonagem(int id) {
+        return personagensRepository.findById(id)
+                .orElseThrow(() -> new NonExistentID(id));
+    }
+
+    public String RandomizeID() {
         Random NumeroRandom = new Random();
-        int totalPersonagens = (int) personagensRepository.count();
-        int id = NumeroRandom.nextInt(totalPersonagens) + 1;
-        personagemDoDia.setId(id);
+        id = NumeroRandom.nextInt(44);
         LocalTime time = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String timeFormatted = time.format(formatter);
 
-        return " Hero Selected at: " +timeFormatted;
+        return " Hero Selected at: " + timeFormatted;
     }
 
-    public String checkName(int guessedHero) {
+    public ServerGuessResponseDTO checkTotal(int guessedHero) {
+        Map<Object, Object>HeroOFTD = redisTemplate.opsForHash().entries("hero"+id);
+        Map<Object, Object>guessedHeroOFTD = redisTemplate.opsForHash().entries("hero"+guessedHero);
+
+        String checkName = checkName(HeroOFTD, guessedHeroOFTD);
+        String checkGender = checkGender(HeroOFTD, guessedHeroOFTD);
+        String checkHealth = checkHealth(HeroOFTD, guessedHeroOFTD);
+        String checkAge = checkAge(HeroOFTD, guessedHeroOFTD);
+        String checkRole = checkRole(HeroOFTD,guessedHeroOFTD);
+        String checkAffiliation = checkAffiliation(HeroOFTD, guessedHeroOFTD);
+        String checkComposition = checkComposition(HeroOFTD, guessedHeroOFTD);
+        String checkSecondComposition = checkSecondComposition(HeroOFTD, guessedHeroOFTD);
+        String checkLaunchYear = checkLaunchYear(HeroOFTD, guessedHeroOFTD);
+
+
+        return ServerGuessResponseDTO.builder()
+                .Name(checkName)
+                .Gender(checkGender)
+                .Health(checkHealth)
+                .Role(checkRole)
+                .Age(checkAge)
+                .Affiliation(checkAffiliation)
+                .Composition(checkComposition)
+                .Composition2(checkSecondComposition)
+                .LaunchYear(checkLaunchYear)
+                .build();
+    }
+
+    public String checkName(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD ) {
         String check;
-        String guessedName = personagensRepository.findById(guessedHero).get().getNomeAgente();
-        String correctName = personagensRepository.findById(personagemDoDia.getId()).get().getNomeAgente();
+        String correctName = (String) HeroOFTD.get("nomeAgente");
+        String guessedName = (String) guessedHeroOFTD.get("nomeAgente");
 
         if (guessedName.equals(correctName)) {
             check = "Correct";
@@ -108,11 +145,14 @@ public class PersonagemService {
 
     }
 
-    public String checkGender(int guessedHero){
+    public String checkGender(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        String guessedGender = personagensRepository.findById(guessedHero).get().getGeneroAgente();
-        String correctGender = personagensRepository.findById(personagemDoDia.getId()).get().getGeneroAgente();
-        if (guessedGender.equals(correctGender)) {
+        String correctGender = (String) HeroOFTD.get("generoAgente");
+        String guessedGender = (String) guessedHeroOFTD.get("generoAgente");
+
+        if (guessedGender.equals(correctGender))
+
+        {
             check = "Correct";
         } else {
             check = "Wrong";
@@ -121,11 +161,12 @@ public class PersonagemService {
 
     }
 
-    public String checkHealth(int guessedHero){
+    public String checkHealth(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        int guessedHealth = personagensRepository.findById(guessedHero).get().getVidaAgente();
-        int correctHealth = personagensRepository.findById(personagemDoDia.getId()).get().getVidaAgente();
-        if (guessedHealth == correctHealth) {
+        Integer correctHealth = (Integer) HeroOFTD.get("vidaAgente");
+        Integer guessedHealth = (Integer) guessedHeroOFTD.get("vidaAgente");
+
+        if (guessedHealth.equals(correctHealth)) {
             check = "Correct";
         } else if (guessedHealth < correctHealth) {
             check = "More";
@@ -136,110 +177,90 @@ public class PersonagemService {
 
     }
 
-    public String checkAge(int guessedHero) {
-        int GuessedHeroAge = personagensRepository.findById(guessedHero).get().getIdadeAgente();
-        int CorrectHeroAge = personagensRepository.findById(personagemDoDia.getId()).get().getIdadeAgente();
+    public String checkAge(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String Check;
+        Integer correctAge = (Integer) HeroOFTD.get("idadeAgente");
+        Integer guessedAge = (Integer) guessedHeroOFTD.get("idadeAgente");
 
-        if (GuessedHeroAge == CorrectHeroAge) {
+        if (correctAge.equals(guessedAge)) {
             Check = "Correct";
-        } else if (GuessedHeroAge < CorrectHeroAge) {
+        } else if (guessedAge < correctAge) {
             Check = "Older";
-        }else {
+        } else {
             Check = "Younger";
         }
         return Check;
     }
 
-    public String checkRole(int guessedHero) {
-        String guessedRole = personagensRepository.findById(guessedHero).get().getTipoAgente();
-        String correctRole = personagensRepository.findById(personagemDoDia.getId()).get().getTipoAgente();
+    public String checkRole(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
+        String correctRole = (String) HeroOFTD.get("tipoAgente");
+        String guessedRole = (String) guessedHeroOFTD.get("tipoAgente");
 
         if (guessedRole.equals(correctRole)) {
             check = "Correct";
-        }
-        else {
+        } else {
             check = "Wrong";
         }
         return check;
     }
 
-    public String checkAffiliation(int guessedHero) {
+    public String checkAffiliation(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String Check;
-        String GuessedAffiliation = personagensRepository.findById(guessedHero).get().getAfiliacaoAgente();
-        String CorrectAffiliation = personagensRepository.findById(personagemDoDia.getId()).get().getAfiliacaoAgente();
-        if (GuessedAffiliation.equals(CorrectAffiliation)) {
+        String correctAffiliation = (String) HeroOFTD.get("afiliacaoAgente");
+        String guessedAffiliation = (String) guessedHeroOFTD.get("afiliacaoAgente");
+
+        if (guessedAffiliation.equals(correctAffiliation)) {
             Check = "Correct";
-        }
-        else {
+        } else {
             Check = "Wrong";
         }
         return Check;
 
     }
 
-    public String checkComposition(int guessedHero){
+    public String checkComposition(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        String GuessedComposition = personagensRepository.findById(guessedHero).get().getCompAgente();
-        String CorrectComposition = personagensRepository.findById(personagemDoDia.getId()).get().getCompAgente();
-        if (GuessedComposition.equals(CorrectComposition)) {
+        String correctComposition = (String) HeroOFTD.get("compAgente");
+        String guessedComposition = (String) guessedHeroOFTD.get("compAgente");
+
+        if (guessedComposition.equals(correctComposition)) {
             check = "Correct";
-        }
-        else {
+        } else {
             check = "Wrong";
         }
 
         return check;
     }
 
-    public String checkLaunchYear(int guessedHero){
+    public String checkSecondComposition(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        int GuessedLaunchYear = personagensRepository.findById(guessedHero).get().getAnoAgente();
-        int CorrectLaunchYear = personagensRepository.findById(personagemDoDia.getId()).get().getAnoAgente();
+        String correctComposition = (String) HeroOFTD.get("compAgente2");
+        String guessedComposition = (String) guessedHeroOFTD.get("compAgente2");
 
-        if (GuessedLaunchYear == CorrectLaunchYear) {
+        if (guessedComposition.equals(correctComposition)) {
             check = "Correct";
-        } else if (CorrectLaunchYear > GuessedLaunchYear) {
+        } else {
+            check = "Wrong";
+        }
+
+        return check;
+    }
+
+    public String checkLaunchYear(Map<Object, Object>HeroOFTD, Map<Object, Object>guessedHeroOFTD) {
+        String check;
+        Integer correctYear = (Integer) HeroOFTD.get("anoAgente");
+        Integer guessedYear = (Integer) guessedHeroOFTD.get("anoAgente");
+
+        if (guessedYear.equals(correctYear)) {
+            check = "Correct";
+        } else if (correctYear > guessedYear) {
             check = "Later";
 
-        }else
+        } else
             check = "Earlier";
 
         return check;
     }
 
-    public ServerGuessResponseDTO checkTotal(int guessedHero){
-
-
-        String checkName = checkName(guessedHero);
-        String checkGender = checkGender(guessedHero);
-        String checkHealth = checkHealth(guessedHero);
-        String checkAge = checkAge(guessedHero);
-        String checkRole =checkRole(guessedHero);
-        String checkAffiliation = checkAffiliation(guessedHero);
-        String checkComposition = checkComposition(guessedHero);
-        String checkLaunchYear = checkLaunchYear(guessedHero);
-
-
-        return ServerGuessResponseDTO.builder()
-                .name(checkName)
-                .gender(checkGender)
-                .health(checkHealth)
-                .role(checkRole)
-                .age(checkAge)
-                .affiliation(checkAffiliation)
-                .Composition(checkComposition)
-                .LaunchYear(checkLaunchYear)
-                .build();
-
-    }
-
-    //TEMPORARIO
-    public Personagem TrazerPersonagem(int id) {
-        return personagensRepository.findById(id)
-                .orElseThrow(()-> new NonExistentID(id));
-    }
 }
-
-

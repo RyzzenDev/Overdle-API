@@ -13,6 +13,7 @@ public record HeroSearchDTO(
           String Gender,
           String Country,
           String Composition,
+          String Composition2,
           Integer LaunchYear
                 ) {
 
@@ -28,6 +29,7 @@ public record HeroSearchDTO(
                 personagem.getGeneroAgente(),
                 personagem.getPaisAgente(),
                 personagem.getCompAgente(),
+                personagem.getCompAgente2(),
                 personagem.getAnoAgente()
         );
     }
