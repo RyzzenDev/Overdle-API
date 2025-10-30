@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "habilidades")
 
-public class Habilidade {
+public class Ability {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,54 +19,54 @@ public class Habilidade {
     private Integer id;
 
     @Column(name = "Personagem_Habilidade", nullable = false)
-    private String personagemHabilidade;
+    private String  heroAbility;
 
     @Column(name = "Habilidade_Passiva", nullable = false)
-    private String habilidadePassiva;
+    private String  heroPassive;
 
     @Column(name = "Tipo_Habilidade1", nullable = false)
-    private String tipoHabilidade1;
+    private String  abilityType1;
 
     @Column(name = "Tipo_Habilidade2", nullable = false)
-    private String tipoHabilidade2;
+    private String  abilityType2;
 
     @Column(name = "Tipo_Habilidade3", nullable = false)
-    private String tipoHabilidade3;
+    private String  abilityType3;
 
     @Column(name = "Som_Habilidade1", nullable = false)
-    private String somHabilidade1;
+    private String  abilitySound1;
 
     @Column(name = "Som_Habilidade2", nullable = false)
-    private String somHabilidade2;
+    private String  abilitySound2;
 
     @Column(name = "Som_Habilidade3", nullable = false)
-    private String somHabilidade3;
+    private String  abilitySound3;
 
     @Column(name = "Foto_Habilidade1", nullable = false)
-    private String fotoHabilidade1;
+    private String  abilityPhoto1;
 
     @Column(name = "Foto_Habilidade2", nullable = false)
-    private String fotoHabilidade2;
+    private String  abilityPhoto2;
 
     @Column(name = "Foto_Habilidade3", nullable = false)
-    private String fotoHabilidade3;
+    private String  abilityPhoto3;
 
     @Column(name = "Descricao_Habilidade1", nullable = false)
-    private String descricaoHabilidade1;
+    private String  abilityInfo1;
 
     @Column(name = "Descricao_Habilidade2", nullable = false)
-    private String descricaoHabilidade2;
+    private String  abilityInfo2;
 
     @Column(name = "Descricao_Habilidade3", nullable = false)
-    private String descricaoHabilidade3;
+    private String  abilityInfo3;
 
     @Column(name = "Cooldown_Habilidade1", nullable = false)
-    private Short cooldownHabilidade1;
+    private Short   abilityCooldown1;
 
     @Column(name = "Cooldown_Habilidade2", nullable = false)
-    private Short cooldownHabilidade2;
+    private Short   abilityCooldown2;
 
     @Column(name = "Cooldown_Habilidade3", nullable = false)
-    private Short cooldownHabilidade3;
+    private Short   abilityCooldown3;
 
 }

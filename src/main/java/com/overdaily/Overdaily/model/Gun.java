@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "armas")
 
-public class Arma {
+public class Gun {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -20,28 +20,28 @@ public class Arma {
     private Integer id;
 
     @Column(name = "Personagem_Arma", nullable = false)
-    private String PersonagemArma;
+    private String heroGun;
 
     @Column(name = "Imagem_Arma", nullable = false)
-    private String ImagemArma;
+    private String gunPhoto;
 
     @Column(name = "Tipo_Arma", nullable = false)
-    private String TipoArma;
+    private String gunType;
 
     @Column(name = "Tipo_Tiro", nullable = false)
-    private String TipoTiro;
+    private String ammoType;
 
     @Column(name = "Dano_Arma", nullable = false)
-    private Integer DanoArma;
+    private Integer gunDamage;
 
     @Column(name = "Headshot", nullable = false, columnDefinition = "TINYINT")
-    private String Headshot;
+    private String headshot;
 
     @Column(name = "Municao", nullable = false)
-    private Integer Municao;
+    private Integer ammo;
 
     @Column(name = "Som_Arma", nullable = false)
-    private String SomArma;
+    private String gunSound;
     
 
 

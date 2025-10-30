@@ -1,4 +1,4 @@
 package com.overdaily.Overdaily.Controller;
 
-public class HabilidadeController {
+public class GunController {
 }

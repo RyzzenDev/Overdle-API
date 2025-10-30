@@ -1,28 +1,28 @@
 package com.overdaily.Overdaily.DTO;
 
-import com.overdaily.Overdaily.model.Arma;
+import com.overdaily.Overdaily.model.Gun;
 
 public record ArmaSearchDTO(
-        String personagemArma,
-        String imagemArma,
-        String tipoTiro,
-        String tipoArma,
-        Integer danoArma,
-        String headshot,
-        Integer municao,
-        String somArma
+        String HeroGun,
+        String GunPhoto,
+        String AmmoType,
+        String GunType,
+        Integer GunDamage,
+        String Headshot,
+        Integer Ammo,
+        String GunSound
 
 ){
-    public ArmaSearchDTO(Arma arma){
+    public ArmaSearchDTO(Gun gun){
         this(
-        arma.getPersonagemArma(),
-        arma.getImagemArma(),
-        arma.getTipoTiro(),
-        arma.getTipoArma(),
-        arma.getDanoArma(),
-        arma.getHeadshot(),
-        arma.getMunicao(),
-        arma.getSomArma()
+        gun.getHeroGun(),
+        gun.getGunPhoto(),
+        gun.getAmmoType(),
+        gun.getGunType(),
+        gun.getGunDamage(),
+        gun.getHeadshot(),
+        gun.getAmmo(),
+        gun.getGunSound()
         );
     }
 }

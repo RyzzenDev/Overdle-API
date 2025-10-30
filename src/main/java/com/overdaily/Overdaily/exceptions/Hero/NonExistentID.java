@@ -1,4 +1,4 @@
-package com.overdaily.Overdaily.exceptions.Personagem;
+package com.overdaily.Overdaily.exceptions.Hero;
 
 public class NonExistentID extends RuntimeException {
   public NonExistentID(int id) {

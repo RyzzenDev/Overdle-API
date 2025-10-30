@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "mapas")
 
-public class Mapa {
+public class Map {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,24 +19,24 @@ public class Mapa {
     private Integer id;
 
     @Column(name = "Tipo_Mapa", nullable = false)
-    private String TipoMapa;
+    private String MapType;
 
     @Column(name = "Pais_Mapa", nullable = false)
-    private String PaisMapa;
+    private String MapCountry;
 
     @Column(name = "Descricao_Mapa", nullable = false)
-    private String DescricaoMapa;
+    private String MapDescription;
 
     @Column(name = "Season_Mapa", nullable = false, columnDefinition = "TINYINT")
-    private Integer SeasonMapa;
+    private Integer MapSeason;
 
     @Column(name = "Versao_OW", nullable = false)
-    private String VersaoOW;
+    private String MapYear;
 
     @Column(name = "Tema_Mapa", nullable = false)
-    private String TemaMapa;
+    private String MapThemeSong;
 
     @Column(name = "Imagem_Mapa", nullable = false)
-    private String ImagemMapa;
+    private String MapPhoto;
 
 }

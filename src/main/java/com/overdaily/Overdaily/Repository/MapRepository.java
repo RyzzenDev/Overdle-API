@@ -1,12 +1,12 @@
 package com.overdaily.Overdaily.Repository;
 
-import com.overdaily.Overdaily.model.Habilidade;
+import com.overdaily.Overdaily.model.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface HabilidadeRepository extends JpaRepository <Habilidade, Integer>{
-    Optional<Habilidade> findById(Integer ID);
+public interface MapRepository extends JpaRepository<Map, Integer> {
+    Optional<Map> findById(Integer ID);
 }

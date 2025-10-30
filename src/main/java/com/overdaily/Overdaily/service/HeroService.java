@@ -3,93 +3,89 @@ package com.overdaily.Overdaily.service;
 import com.overdaily.Overdaily.DTO.HeroSearchDTO;
 import com.overdaily.Overdaily.DTO.ListHeroesDTO;
 import com.overdaily.Overdaily.DTO.ServerGuessResponseDTO;
-import com.overdaily.Overdaily.Repository.PersonagemRepository;
-import com.overdaily.Overdaily.exceptions.Personagem.NonExistentID;
-import com.overdaily.Overdaily.model.Personagem;
+import com.overdaily.Overdaily.Repository.HeroRepository;
+import com.overdaily.Overdaily.exceptions.Hero.NonExistentID;
+import com.overdaily.Overdaily.model.Hero;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
-public class PersonagemService {
+public class HeroService {
 
 
-    private final PersonagemRepository personagensRepository;
-    private final Personagem personagemDoDia;
+    private final HeroRepository heroRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public PersonagemService(PersonagemRepository personagensRepository, RedisTemplate<String, Object> redisTemplate) {
-        this.personagensRepository = personagensRepository;
-        this.personagemDoDia = new Personagem();
+    public HeroService(HeroRepository heroRepository, RedisTemplate<String, Object> redisTemplate) {
+        this.heroRepository = heroRepository;
         this.redisTemplate = redisTemplate;
     }
-
-    HashMap<Integer, String> SelectedHero = new HashMap<>();
 
     int id;
 
     public HeroSearchDTO SearchID(Integer id) {
-        Personagem personagembuscado = personagensRepository.findById(id)
+        Hero personagembuscado = heroRepository.findById(id)
                 .orElseThrow(() -> new NonExistentID(id));
         return new HeroSearchDTO(personagembuscado);
     }
 
     public List<ListHeroesDTO> IDList() {
-        List<Personagem> HeroList = personagensRepository.findAll();
+        List<Hero> HeroList = heroRepository.findAll();
         return HeroList.stream()
                 .map(ListHeroesDTO::new)
                 .toList();
     }
+    /*
+        public List<ListHeroesDTO> SearchRole(String heroType) {
+            List<Hero> HeroList = heroRepository.findAll();
 
-    public List<ListHeroesDTO> SearchRole(String heroType) {
-        List<Personagem> HeroList = personagensRepository.findAll();
+            List<ListHeroesDTO> ListaBuscada = new java.util.ArrayList<>();
 
-        List<ListHeroesDTO> ListaBuscada = new java.util.ArrayList<>();
-
-        String heroRole = heroType.toLowerCase();
+            String heroRole = heroType.toLowerCase();
 
 
-        switch (heroRole) {
-            case "tank": {
-                List<ListHeroesDTO> RoleTankList = HeroList.stream()
-                        .filter(personagem -> "Tank".equals(personagem.getTipoAgente()))
-                        .map(ListHeroesDTO::new)
-                        .toList();
-                ListaBuscada = RoleTankList;
+            switch (heroRole) {
+                case "tank": {
+                    List<ListHeroesDTO> RoleTankList = HeroList.stream()
+                            .filter(personagem -> "Tank".equals(personagem.getTipoAgente()))
+                            .map(ListHeroesDTO::new)
+                            .toList();
+                    ListaBuscada = RoleTankList;
 
-                return ListaBuscada;
+                    return ListaBuscada;
 
+                }
+                case "damage": {
+                    List<ListHeroesDTO> RoleDamageList = HeroList.stream()
+                            .filter(personagem -> "Damage".equals(personagem.getTipoAgente()))
+                            .map(ListHeroesDTO::new)
+                            .toList();
+                    ListaBuscada = RoleDamageList;
+
+                    return ListaBuscada;
+
+                }
+                case "support": {
+                    List<ListHeroesDTO> RoleSupportList = HeroList.stream()
+                            .filter(personagem -> "Support".equals(personagem.getTipoAgente()))
+                            .map(ListHeroesDTO::new)
+                            .toList();
+                    ListaBuscada = RoleSupportList;
+                    return ListaBuscada;
+
+                }
             }
-            case "damage": {
-                List<ListHeroesDTO> RoleDamageList = HeroList.stream()
-                        .filter(personagem -> "Damage".equals(personagem.getTipoAgente()))
-                        .map(ListHeroesDTO::new)
-                        .toList();
-                ListaBuscada = RoleDamageList;
 
-                return ListaBuscada;
-
-            }
-            case "support": {
-                List<ListHeroesDTO> RoleSupportList = HeroList.stream()
-                        .filter(personagem -> "Support".equals(personagem.getTipoAgente()))
-                        .map(ListHeroesDTO::new)
-                        .toList();
-                ListaBuscada = RoleSupportList;
-                return ListaBuscada;
-
-            }
+            return ListaBuscada;
         }
 
-        return ListaBuscada;
-    }
 
-    public Personagem TrazerPersonagem(int id) {
-        return personagensRepository.findById(id)
+     */
+    public Hero TrazerPersonagem(int id) {
+        return heroRepository.findById(id)
                 .orElseThrow(() -> new NonExistentID(id));
     }
 
@@ -103,7 +99,7 @@ public class PersonagemService {
         return " Hero Selected at: " + timeFormatted;
     }
 
-    public ServerGuessResponseDTO checkTotal(int guessedHero) {
+    public ServerGuessResponseDTO guessCheck(int guessedHero) {
         Map<Object, Object>HeroOFTD = redisTemplate.opsForHash().entries("hero"+id);
         Map<Object, Object>guessedHeroOFTD = redisTemplate.opsForHash().entries("hero"+guessedHero);
 
@@ -133,8 +129,8 @@ public class PersonagemService {
 
     public String checkName(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD ) {
         String check;
-        String correctName = (String) HeroOFTD.get("nomeAgente");
-        String guessedName = (String) guessedHeroOFTD.get("nomeAgente");
+        String correctName = (String) HeroOFTD.get("heroName");
+        String guessedName = (String) guessedHeroOFTD.get("heroName");
 
         if (guessedName.equals(correctName)) {
             check = "Correct";
@@ -147,8 +143,8 @@ public class PersonagemService {
 
     public String checkGender(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        String correctGender = (String) HeroOFTD.get("generoAgente");
-        String guessedGender = (String) guessedHeroOFTD.get("generoAgente");
+        String correctGender = (String) HeroOFTD.get("heroGender");
+        String guessedGender = (String) guessedHeroOFTD.get("heroGender");
 
         if (guessedGender.equals(correctGender))
 
@@ -163,8 +159,8 @@ public class PersonagemService {
 
     public String checkHealth(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        Integer correctHealth = (Integer) HeroOFTD.get("vidaAgente");
-        Integer guessedHealth = (Integer) guessedHeroOFTD.get("vidaAgente");
+        Integer correctHealth = (Integer) HeroOFTD.get("heroHealth");
+        Integer guessedHealth = (Integer) guessedHeroOFTD.get("heroHealth");
 
         if (guessedHealth.equals(correctHealth)) {
             check = "Correct";
@@ -179,8 +175,8 @@ public class PersonagemService {
 
     public String checkAge(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String Check;
-        Integer correctAge = (Integer) HeroOFTD.get("idadeAgente");
-        Integer guessedAge = (Integer) guessedHeroOFTD.get("idadeAgente");
+        Integer correctAge = (Integer) HeroOFTD.get("heroAge");
+        Integer guessedAge = (Integer) guessedHeroOFTD.get("heroAge");
 
         if (correctAge.equals(guessedAge)) {
             Check = "Correct";
@@ -194,8 +190,8 @@ public class PersonagemService {
 
     public String checkRole(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        String correctRole = (String) HeroOFTD.get("tipoAgente");
-        String guessedRole = (String) guessedHeroOFTD.get("tipoAgente");
+        String correctRole = (String) HeroOFTD.get("heroRole");
+        String guessedRole = (String) guessedHeroOFTD.get("heroRole");
 
         if (guessedRole.equals(correctRole)) {
             check = "Correct";
@@ -207,8 +203,8 @@ public class PersonagemService {
 
     public String checkAffiliation(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String Check;
-        String correctAffiliation = (String) HeroOFTD.get("afiliacaoAgente");
-        String guessedAffiliation = (String) guessedHeroOFTD.get("afiliacaoAgente");
+        String correctAffiliation = (String) HeroOFTD.get("heroAffiliation");
+        String guessedAffiliation = (String) guessedHeroOFTD.get("heroAffiliation");
 
         if (guessedAffiliation.equals(correctAffiliation)) {
             Check = "Correct";
@@ -221,8 +217,8 @@ public class PersonagemService {
 
     public String checkComposition(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        String correctComposition = (String) HeroOFTD.get("compAgente");
-        String guessedComposition = (String) guessedHeroOFTD.get("compAgente");
+        String correctComposition = (String) HeroOFTD.get("heroComp");
+        String guessedComposition = (String) guessedHeroOFTD.get("heroComp");
 
         if (guessedComposition.equals(correctComposition)) {
             check = "Correct";
@@ -235,8 +231,8 @@ public class PersonagemService {
 
     public String checkSecondComposition(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
-        String correctComposition = (String) HeroOFTD.get("compAgente2");
-        String guessedComposition = (String) guessedHeroOFTD.get("compAgente2");
+        String correctComposition = (String) HeroOFTD.get("heroComp2");
+        String guessedComposition = (String) guessedHeroOFTD.get("heroComp2");
 
         if (guessedComposition.equals(correctComposition)) {
             check = "Correct";
@@ -249,8 +245,8 @@ public class PersonagemService {
 
     public String checkLaunchYear(Map<Object, Object>HeroOFTD, Map<Object, Object>guessedHeroOFTD) {
         String check;
-        Integer correctYear = (Integer) HeroOFTD.get("anoAgente");
-        Integer guessedYear = (Integer) guessedHeroOFTD.get("anoAgente");
+        Integer correctYear = (Integer) HeroOFTD.get("heroYear");
+        Integer guessedYear = (Integer) guessedHeroOFTD.get("heroYear");
 
         if (guessedYear.equals(correctYear)) {
             check = "Correct";

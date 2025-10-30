@@ -1,18 +1,18 @@
 package com.overdaily.Overdaily.DTO;
 
-import com.overdaily.Overdaily.model.Personagem;
+import com.overdaily.Overdaily.model.Hero;
 
 public record ListHeroesDTO (
         Integer id,
-        String nomeAgente,
-        String tipoAgente
+        String heroName,
+        String heroRole
 
 ){
-    public ListHeroesDTO (Personagem personagem){
+    public ListHeroesDTO (Hero hero){
 
-        this(   personagem.getId(),
-                personagem.getNomeAgente(),
-                personagem.getTipoAgente()
+        this(   hero.getId(),
+                hero.getHeroName(),
+                hero.getHeroRole()
         );
     }
 }

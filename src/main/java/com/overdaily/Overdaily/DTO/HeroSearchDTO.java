@@ -1,6 +1,6 @@
 package com.overdaily.Overdaily.DTO;
 
-import com.overdaily.Overdaily.model.Personagem;
+import com.overdaily.Overdaily.model.Hero;
 
 public record HeroSearchDTO(
           String Affiliation,
@@ -17,20 +17,20 @@ public record HeroSearchDTO(
           Integer LaunchYear
                 ) {
 
-    public HeroSearchDTO(Personagem personagem) {
+    public HeroSearchDTO(Hero hero) {
         this (
-                personagem.getAfiliacaoAgente(),
-                personagem.getTipoAgente(),
-                personagem.getNomeAgente(),
-                personagem.getNomeRealAgente(),
-                personagem.getFotoAgente(),
-                personagem.getVidaAgente(),
-                personagem.getIdadeAgente(),
-                personagem.getGeneroAgente(),
-                personagem.getPaisAgente(),
-                personagem.getCompAgente(),
-                personagem.getCompAgente2(),
-                personagem.getAnoAgente()
+                hero.getHeroAffiliation(),
+                hero.getHeroRole(),
+                hero.getHeroName(),
+                hero.getHeroRealName(),
+                hero.getHeroPhoto(),
+                hero.getHeroHealth(),
+                hero.getHeroAge(),
+                hero.getHeroGender(),
+                hero.getHeroCountry(),
+                hero.getHeroComp(),
+                hero.getHeroComp2(),
+                hero.getHeroYear()
         );
     }
 }

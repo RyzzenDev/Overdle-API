@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "falas")
-public class Fala {
+public class Voiceline {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,25 +18,25 @@ public class Fala {
     private Integer id;
 
     @Column(name = "Personagem_Fala", nullable = false)
-    private String PersonagemFala;
+    private String HeroVoiceline;
 
     @Column(name = "Fala_Facil", nullable = false)
-    private String FalaFacil;
+    private String EasyVoiceline;
 
     @Column(name = "Fala_Media", nullable = false)
-    private String FalaMedia;
+    private String MediumVoiceline;
 
     @Column(name = "Fala_Dificil", nullable = false)
-    private String FalaDificil;
+    private String HardVoiceline;
 
     @Column(name = "Audio_Facil", nullable = false)
-    private String AudioFacil;
+    private String EasyAudio;
 
     @Column(name = "Audio_Media", nullable = false)
-    private String AudioMedia;
+    private String MediumAudio;
 
     @Column(name = "Audio_Dificil", nullable = false)
-    private String AudioDificil;
+    private String HardAudio;
 
 
 

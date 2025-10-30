@@ -1,6 +1,6 @@
 package com.overdaily.Overdaily.DTO;
 
-import com.overdaily.Overdaily.model.Mapa;
+import com.overdaily.Overdaily.model.Map;
 
 public record MapaSearchDTO (
 
@@ -10,13 +10,13 @@ public record MapaSearchDTO (
         String temaMapa,
         String imagemMapa
 ){
-    public MapaSearchDTO (Mapa mapa){
+    public MapaSearchDTO (Map map){
         this(
-                mapa.getTipoMapa(),
-                mapa.getPaisMapa(),
-                mapa.getDescricaoMapa(),
-                mapa.getTemaMapa(),
-                mapa.getImagemMapa()
+                map.getMapType(),
+                map.getMapCountry(),
+                map.getMapDescription(),
+                map.getMapThemeSong(),
+                map.getMapPhoto()
         );
 
     }
