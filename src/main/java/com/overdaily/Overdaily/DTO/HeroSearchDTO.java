@@ -1,19 +1,21 @@
 package com.overdaily.Overdaily.DTO;
 
-import com.overdaily.Overdaily.model.Hero;
+import com.overdaily.Overdaily.entity.Hero;
+import lombok.Builder;
 
+@Builder
 public record HeroSearchDTO(
+          String Photo,
           String Affiliation,
           String Role,
           String Name,
           String RealName,
-          String Photo,
           Integer Health,
-          Short Age,
+          Integer Age,
           String Gender,
           String Country,
-          String Composition,
-          String Composition2,
+          String FirstComposition,
+          String SecondComposition,
           Integer LaunchYear
                 ) {
 

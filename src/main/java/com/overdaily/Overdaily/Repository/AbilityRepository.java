@@ -1,6 +1,6 @@
 package com.overdaily.Overdaily.Repository;
 
-import com.overdaily.Overdaily.model.Ability;
+import com.overdaily.Overdaily.entity.Ability;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

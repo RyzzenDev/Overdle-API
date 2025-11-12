@@ -1,4 +1,4 @@
-package com.overdaily.Overdaily.model;
+package com.overdaily.Overdaily.entity;
 
 
 import jakarta.persistence.*;

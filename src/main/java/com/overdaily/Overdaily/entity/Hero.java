@@ -1,4 +1,4 @@
-package com.overdaily.Overdaily.model;
+package com.overdaily.Overdaily.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -32,11 +32,14 @@ public class Hero {
     @Column(name = "foto_agente", nullable = false)
     private String heroPhoto;
 
+    @Column(name = "retrato_agente", nullable = false)
+    private String heroPortrait;
+
     @Column(name = "vida_agente", nullable = false)
     private Integer heroHealth;
 
     @Column(name = "idade_agente", nullable = false)
-    private Short heroAge;
+    private Integer  heroAge;
 
     @Column(name = "genero_agente", nullable = false)
     private String heroGender;

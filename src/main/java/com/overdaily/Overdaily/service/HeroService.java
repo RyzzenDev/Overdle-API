@@ -4,10 +4,10 @@ import com.overdaily.Overdaily.DTO.HeroSearchDTO;
 import com.overdaily.Overdaily.DTO.ListHeroesDTO;
 import com.overdaily.Overdaily.DTO.ServerGuessResponseDTO;
 import com.overdaily.Overdaily.Repository.HeroRepository;
-import com.overdaily.Overdaily.exceptions.Hero.NonExistentID;
-import com.overdaily.Overdaily.model.Hero;
+import com.overdaily.Overdaily.entity.Hero;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -26,67 +26,72 @@ public class HeroService {
 
     int id;
 
-    public HeroSearchDTO SearchID(Integer id) {
-        Hero personagembuscado = heroRepository.findById(id)
-                .orElseThrow(() -> new NonExistentID(id));
-        return new HeroSearchDTO(personagembuscado);
-    }
-
-    public List<ListHeroesDTO> IDList() {
-        List<Hero> HeroList = heroRepository.findAll();
-        return HeroList.stream()
-                .map(ListHeroesDTO::new)
-                .toList();
-    }
-    /*
-        public List<ListHeroesDTO> SearchRole(String heroType) {
-            List<Hero> HeroList = heroRepository.findAll();
-
-            List<ListHeroesDTO> ListaBuscada = new java.util.ArrayList<>();
-
-            String heroRole = heroType.toLowerCase();
 
 
-            switch (heroRole) {
-                case "tank": {
-                    List<ListHeroesDTO> RoleTankList = HeroList.stream()
-                            .filter(personagem -> "Tank".equals(personagem.getTipoAgente()))
-                            .map(ListHeroesDTO::new)
-                            .toList();
-                    ListaBuscada = RoleTankList;
+    public List<ListHeroesDTO> ListByRole(String role){
+        int i = 1;
+        List<ListHeroesDTO> listHeroes = new ArrayList<>();
+        int DBSize = (int) heroRepository.count();
+        String FormattedRole = role.substring(0, 1).toUpperCase() + role.substring(1).toLowerCase();
+        do {
 
-                    return ListaBuscada;
+            Map<Object, Object> HeroDB = redisTemplate.opsForHash().entries("hero" + i);
 
-                }
-                case "damage": {
-                    List<ListHeroesDTO> RoleDamageList = HeroList.stream()
-                            .filter(personagem -> "Damage".equals(personagem.getTipoAgente()))
-                            .map(ListHeroesDTO::new)
-                            .toList();
-                    ListaBuscada = RoleDamageList;
+            if(HeroDB.get("heroRole").equals(FormattedRole)){
 
-                    return ListaBuscada;
+                ListHeroesDTO listRole = ListHeroesDTO.builder()
+                        .id((int) HeroDB.get("id"))
+                        .heroName((String) HeroDB.get("heroName"))
+                        .build();
 
-                }
-                case "support": {
-                    List<ListHeroesDTO> RoleSupportList = HeroList.stream()
-                            .filter(personagem -> "Support".equals(personagem.getTipoAgente()))
-                            .map(ListHeroesDTO::new)
-                            .toList();
-                    ListaBuscada = RoleSupportList;
-                    return ListaBuscada;
+                listHeroes.add(listRole);
+                i++;
 
-                }
+            }else {
+                i++;
             }
 
-            return ListaBuscada;
-        }
+        }while (i < DBSize);
+     return listHeroes;
+    }
 
+    public List<ListHeroesDTO>ListDB() {
+        int i = 1;
 
-     */
-    public Hero TrazerPersonagem(int id) {
-        return heroRepository.findById(id)
-                .orElseThrow(() -> new NonExistentID(id));
+        List<ListHeroesDTO> list = new ArrayList<>();
+        int DBSize = (int) heroRepository.count();
+        do {
+            Map<Object, Object> HeroDB = redisTemplate.opsForHash().entries("hero" + i);
+            ListHeroesDTO buildhero = ListHeroesDTO.builder()
+                    .id((int) HeroDB.get("id"))
+                    .heroName((String) HeroDB.get("heroName"))
+                    .heroPortrait((String) HeroDB.get("heroPortrait"))
+                    .build();
+            list.add(buildhero);
+                    i++;
+        } while (i <= DBSize);
+
+        return list;
+    }
+
+    public HeroSearchDTO SearchID(Integer id){
+
+        Map<Object, Object> SearchedHero = redisTemplate.opsForHash().entries("hero"+id);
+
+        return HeroSearchDTO.builder()
+                .Photo((String) SearchedHero.get("heroPhoto"))
+                .Affiliation((String) SearchedHero.get("heroAffiliation"))
+                .Role((String) SearchedHero.get("heroRole"))
+                .Name((String) SearchedHero.get("heroName"))
+                .RealName((String) SearchedHero.get("heroRealName"))
+                .Age((Integer) SearchedHero.get("heroAge"))
+                .Health((Integer) SearchedHero.get("heroHealth"))
+                .Gender((String) SearchedHero.get("heroGender"))
+                .Country((String) SearchedHero.get("heroCountry"))
+                .FirstComposition((String) SearchedHero.get("heroComp"))
+                .SecondComposition((String) SearchedHero.get("HeroComp2"))
+                .LaunchYear((Integer)  SearchedHero.get("heroYear"))
+                .build();
     }
 
     public String RandomizeID() {
@@ -113,8 +118,10 @@ public class HeroService {
         String checkSecondComposition = checkSecondComposition(HeroOFTD, guessedHeroOFTD);
         String checkLaunchYear = checkLaunchYear(HeroOFTD, guessedHeroOFTD);
 
-
         return ServerGuessResponseDTO.builder()
+                .id((Integer) guessedHeroOFTD.get("id"))
+                .heroPortrait((String) guessedHeroOFTD.get("heroPortrait"))
+                .guessedHeroPortrait((String) guessedHeroOFTD.get("heroPortrait"))
                 .Name(checkName)
                 .Gender(checkGender)
                 .Health(checkHealth)
@@ -124,6 +131,15 @@ public class HeroService {
                 .Composition(checkComposition)
                 .Composition2(checkSecondComposition)
                 .LaunchYear(checkLaunchYear)
+                .guessedName((String) guessedHeroOFTD.get("heroName"))
+                .guessedGender((String) guessedHeroOFTD.get("heroGender"))
+                .guessedHealth((Integer) guessedHeroOFTD.get("heroHealth"))
+                .guessedRole((String) guessedHeroOFTD.get("heroRole"))
+                .guessedAge((Integer) guessedHeroOFTD.get("heroAge"))
+                .guessedAffiliation((String)  guessedHeroOFTD.get("heroAffiliation"))
+                .guessedComposition((String)  guessedHeroOFTD.get("heroComp"))
+                .guessedComposition2((String)  guessedHeroOFTD.get("heroComp2"))
+                .guessedLaunchYear((Integer) guessedHeroOFTD.get("heroYear"))
                 .build();
     }
 
@@ -162,7 +178,7 @@ public class HeroService {
         Integer correctHealth = (Integer) HeroOFTD.get("heroHealth");
         Integer guessedHealth = (Integer) guessedHeroOFTD.get("heroHealth");
 
-        if (guessedHealth.equals(correctHealth)) {
+        if (Objects.equals(guessedHealth, correctHealth)) {
             check = "Correct";
         } else if (guessedHealth < correctHealth) {
             check = "More";

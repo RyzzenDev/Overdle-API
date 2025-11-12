@@ -2,7 +2,7 @@ package com.overdaily.Overdaily.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.overdaily.Overdaily.Repository.HeroRepository;
-import com.overdaily.Overdaily.model.Hero;
+import com.overdaily.Overdaily.entity.Hero;
 import jakarta.annotation.PostConstruct;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

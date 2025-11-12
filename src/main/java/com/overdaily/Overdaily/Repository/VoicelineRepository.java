@@ -1,6 +1,6 @@
 package com.overdaily.Overdaily.Repository;
 
-import com.overdaily.Overdaily.model.Voiceline;
+import com.overdaily.Overdaily.entity.Voiceline;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

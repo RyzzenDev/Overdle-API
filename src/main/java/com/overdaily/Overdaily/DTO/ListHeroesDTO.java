@@ -1,18 +1,14 @@
 package com.overdaily.Overdaily.DTO;
 
-import com.overdaily.Overdaily.model.Hero;
+import lombok.*;
 
-public record ListHeroesDTO (
-        Integer id,
-        String heroName,
-        String heroRole
-
-){
-    public ListHeroesDTO (Hero hero){
-
-        this(   hero.getId(),
-                hero.getHeroName(),
-                hero.getHeroRole()
-        );
-    }
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ListHeroesDTO{
+        Integer id;
+        String heroName;
+        String heroPortrait;
 }
