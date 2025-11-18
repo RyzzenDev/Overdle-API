@@ -5,21 +5,17 @@ import com.overdaily.Overdaily.DTO.HeroSearchDTO;
 import com.overdaily.Overdaily.DTO.ListHeroesDTO;
 import com.overdaily.Overdaily.DTO.ServerGuessResponseDTO;
 import com.overdaily.Overdaily.Repository.HeroRepository;
-import com.overdaily.Overdaily.entity.Hero;
 import com.overdaily.Overdaily.service.HeroService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 
 @RestController
 @CrossOrigin(
-        origins = "http://localhost:8081", // A porta do seu front-end
-        methods = { RequestMethod.GET, RequestMethod.POST } // <-- ADICIONE ISSO
+        origins = "http://localhost:8081",
+        methods = { RequestMethod.GET, RequestMethod.POST }
 )
 @RequestMapping("/Heroes")
 
@@ -51,5 +47,13 @@ public class HeroController {
     @PostMapping("/Guess/{guessedHero}")
     public ResponseEntity<ServerGuessResponseDTO> GuessCheck(@PathVariable int guessedHero){
         return ResponseEntity.ok(heroService.guessCheck(guessedHero));
+    }
+    @GetMapping("/Date")
+    public ResponseEntity<OffsetDateTime> Date(){
+        return  ResponseEntity.ok(heroService.Date());
+    }
+    @GetMapping("/GameCount")
+    public ResponseEntity<Integer> getGameCount(){
+        return ResponseEntity.ok(heroService.GameCount());
     }
 }

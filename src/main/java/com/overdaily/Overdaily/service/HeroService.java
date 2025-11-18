@@ -6,15 +6,19 @@ import com.overdaily.Overdaily.DTO.ServerGuessResponseDTO;
 import com.overdaily.Overdaily.Repository.HeroRepository;
 import com.overdaily.Overdaily.entity.Hero;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
 public class HeroService {
-
 
     private final HeroRepository heroRepository;
     private final RedisTemplate<String, Object> redisTemplate;
@@ -23,10 +27,9 @@ public class HeroService {
         this.heroRepository = heroRepository;
         this.redisTemplate = redisTemplate;
     }
-
     int id;
-
-
+    OffsetDateTime date;
+    int gameCount = 0;
 
     public List<ListHeroesDTO> ListByRole(String role){
         int i = 1;
@@ -94,14 +97,25 @@ public class HeroService {
                 .build();
     }
 
+    @Scheduled(fixedRate = 86400000)
     public String RandomizeID() {
+        System.out.println("Randomizing Hero");
         Random NumeroRandom = new Random();
         id = NumeroRandom.nextInt(44);
         LocalTime time = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String timeFormatted = time.format(formatter);
-
+         date = OffsetDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS);
+         gameCount++;
         return " Hero Selected at: " + timeFormatted;
+    }
+
+    public OffsetDateTime Date(){
+        return date;
+    }
+
+    public int GameCount(){
+        return gameCount;
     }
 
     public ServerGuessResponseDTO guessCheck(int guessedHero) {
