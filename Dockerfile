@@ -17,7 +17,7 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # COPIA o arquivo JAR correto
-COPY --from=build /app/build/libs/overdaily-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 
 # Configuração de porta
 ENV PORT 8080
