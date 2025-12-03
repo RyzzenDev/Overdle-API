@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(
-        origins = "http://localhost:8081",
+        origins = "https://overdle.vercel.app",
         methods = { RequestMethod.GET, RequestMethod.POST }
 )
 @RequestMapping("/Heroes")
