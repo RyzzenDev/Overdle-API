@@ -1,26 +1,58 @@
-🎯 OverDaily API: O Valdle de Overwatch
-Este é o repositório de backend para o OverDaily, um jogo diário de adivinhação baseado no formato popularizado pelo Valdle, mas totalmente focado nos heróis, habilidades e universo de Overwatch.
+# 🎯 Overdle API
 
-A cada dia, os jogadores são desafiados a identificar um herói com base em pistas como áudios de Ultimate, descrições de habilidades e dados de armas.
+> The backend engine powering **Overdle** — the ultimate Overwatch guessing game.
 
-🛠️ Sobre a API
+**Overdle** is a daily challenge game inspired by the popular *Valdle*, but completely dedicated to the Overwatch universe. Every day, players are challenged to identify a hero based on specific clues such as **Affiliation**, **Role**, **Launch Year**, and **Many more**.
 
-A API é construída em Java 17 com Spring Boot 3 e usa MySQL para persistência de dados. Ela é responsável por:
+## 🎮 Play Now
 
-Gerenciar o banco de dados de heróis, habilidades e falas.
+The frontend is live! You can test your knowledge right now at:
 
-Fornecer os dados do desafio diário de forma organizada.
+### [👉 overdle.vercel.app](https://overdle.vercel.app)
 
-Garantir a integridade e consistência das informações do jogo.
+---
 
-💻 Quer Jogar?
-O frontend deste projeto (o site onde você joga) está disponível em:
+## 🛠️ About the Project
 
-[Insira Aqui o Link do Site onde o Jogo Roda]
+This API serves as the backbone of the application. It is designed to be robust and performant, managing the entire game state and data distribution.
 
-⚙️ Tecnologias Principais
-Java 21 / Spring Boot 3
+**Key Responsibilities:**
+* **Data Management:** Orchestrates the database of Heroes, Abilities, and Voice Lines.
+* **Daily Challenges:** Generates and serves the daily puzzle data to the frontend.
+* **Consistency:** Ensures game integrity and validates user answers.
 
-Spring Data JPA / Hibernate / Lombok / Spring Web
+---
 
-MySQL
+## 🔮 Roadmap & Future Features
+
+We are constantly working to expand Overdle. Here is what's coming next:
+
+* **Ability Mode:** A new mode to guess the hero based solely on ability icons or descriptions.
+* **Voice Line Mode:** Challenge your hearing by identifying heroes from obscure voice lines.
+* **Map Guessing:** A visual mode to guess the Overwatch map from a screenshot.
+* **Ultimate Mode:** A specialized mode focused entirely on Ultimate voice lines and sounds.
+
+---
+
+## 🚀 Tech Stack
+
+This project leverages modern software architecture, utilizing **Java 21** and **Spring Boot 3** for high performance, alongside **Redis** for caching and **Next.js** for the client-side experience.
+
+| Category | Technology | Description |
+| :--- | :--- | :--- |
+| **Core** | ![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat&logo=openjdk&logoColor=white) | The main programming language (LTS). |
+| **Framework** | ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F?style=flat&logo=spring&logoColor=white) | For RESTful API creation and dependency injection. |
+| **Database** | ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=flat&logo=mysql&logoColor=white) | Primary relational database for persistence. |
+| **Caching** | ![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white) | Used for caching and session management. |
+| **Frontend** | ![Next.js](https://img.shields.io/badge/Next.js-black?style=flat&logo=next.js&logoColor=white) | The client-side application (hosted on Vercel). |
+
+### Additional Libraries
+* **Spring Data JPA / Hibernate:** For ORM and database interactions.
+* **Lombok:** To reduce boilerplate code.
+* **Spring Web:** For building the web layer.
+
+---
+
+## 📝 License
+
+This project is for educational purposes and is not affiliated with Blizzard Entertainment. Overwatch is a trademark of Blizzard Entertainment.
