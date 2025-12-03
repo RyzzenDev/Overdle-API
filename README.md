@@ -1,5 +1,5 @@
+![Logo do OverDaily](Overdle.svg)
 # 🎯 Overdle API
-
 > The backend engine powering **Overdle** — the ultimate Overwatch guessing game.
 
 **Overdle** is a daily challenge game inspired by the popular *Valdle*, but completely dedicated to the Overwatch universe. Every day, players are challenged to identify a hero based on specific clues such as **Affiliation**, **Role**, **Launch Year**, and **Many more**.
