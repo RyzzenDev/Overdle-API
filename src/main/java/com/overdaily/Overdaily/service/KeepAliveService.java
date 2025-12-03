@@ -14,7 +14,7 @@ public class KeepAliveService {
     @Value("${backend.base-url}")
     private String baseUrl;
 
-    @Scheduled(fixedRate = 840000)
+    @Scheduled(fixedRate = 780000)
     public void selfPing() {
         try {
             String url = baseUrl + PING_ENDPOINT;

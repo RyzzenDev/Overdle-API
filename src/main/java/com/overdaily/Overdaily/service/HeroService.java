@@ -16,6 +16,8 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 
 @Service
 public class HeroService {
@@ -27,11 +29,12 @@ public class HeroService {
         this.heroRepository = heroRepository;
         this.redisTemplate = redisTemplate;
     }
+
     int id;
     OffsetDateTime date;
     int gameCount = 0;
 
-    public List<ListHeroesDTO> ListByRole(String role){
+    public List<ListHeroesDTO> ListByRole(String role) {
         int i = 1;
         List<ListHeroesDTO> listHeroes = new ArrayList<>();
         int DBSize = (int) heroRepository.count();
@@ -40,7 +43,7 @@ public class HeroService {
 
             Map<Object, Object> HeroDB = redisTemplate.opsForHash().entries("hero" + i);
 
-            if(HeroDB.get("heroRole").equals(FormattedRole)){
+            if (HeroDB.get("heroRole").equals(FormattedRole)) {
 
                 ListHeroesDTO listRole = ListHeroesDTO.builder()
                         .id((int) HeroDB.get("id"))
@@ -50,15 +53,15 @@ public class HeroService {
                 listHeroes.add(listRole);
                 i++;
 
-            }else {
+            } else {
                 i++;
             }
 
-        }while (i < DBSize);
-     return listHeroes;
+        } while (i < DBSize);
+        return listHeroes;
     }
 
-    public List<ListHeroesDTO>ListDB() {
+    public List<ListHeroesDTO> ListDB() {
         int i = 1;
 
         List<ListHeroesDTO> list = new ArrayList<>();
@@ -71,15 +74,19 @@ public class HeroService {
                     .heroPortrait((String) HeroDB.get("heroPortrait"))
                     .build();
             list.add(buildhero);
-                    i++;
+            i++;
         } while (i <= DBSize);
 
         return list;
     }
 
-    public HeroSearchDTO SearchID(Integer id){
+    public HeroSearchDTO SearchID(Integer id) {
 
-        Map<Object, Object> SearchedHero = redisTemplate.opsForHash().entries("hero"+id);
+        Map<Object, Object> SearchedHero = redisTemplate.opsForHash().entries("hero" + id);
+
+        if (SearchedHero.isEmpty()) {
+            throw new com.overdaily.Overdaily.exceptions.ResourceNotFoundException("Hero not found with id: " + id);
+        }
 
         return HeroSearchDTO.builder()
                 .Photo((String) SearchedHero.get("heroPhoto"))
@@ -93,11 +100,12 @@ public class HeroService {
                 .Country((String) SearchedHero.get("heroCountry"))
                 .FirstComposition((String) SearchedHero.get("heroComp"))
                 .SecondComposition((String) SearchedHero.get("HeroComp2"))
-                .LaunchYear((Integer)  SearchedHero.get("heroYear"))
+                .LaunchYear((Integer) SearchedHero.get("heroYear"))
                 .build();
     }
 
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(cron = "0 0 0 * * ?", zone = "UTC")
+    @EventListener(ApplicationReadyEvent.class)
     public String RandomizeID() {
         System.out.println("Randomizing Hero");
         Random NumeroRandom = new Random();
@@ -105,28 +113,28 @@ public class HeroService {
         LocalTime time = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String timeFormatted = time.format(formatter);
-         date = OffsetDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS);
-         gameCount++;
+        date = OffsetDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS);
+        gameCount++;
         return " Hero Selected at: " + timeFormatted;
     }
 
-    public OffsetDateTime Date(){
+    public OffsetDateTime Date() {
         return date;
     }
 
-    public int GameCount(){
+    public int GameCount() {
         return gameCount;
     }
 
     public ServerGuessResponseDTO guessCheck(int guessedHero) {
-        Map<Object, Object>HeroOFTD = redisTemplate.opsForHash().entries("hero"+id);
-        Map<Object, Object>guessedHeroOFTD = redisTemplate.opsForHash().entries("hero"+guessedHero);
+        Map<Object, Object> HeroOFTD = redisTemplate.opsForHash().entries("hero" + id);
+        Map<Object, Object> guessedHeroOFTD = redisTemplate.opsForHash().entries("hero" + guessedHero);
 
         String checkName = checkName(HeroOFTD, guessedHeroOFTD);
         String checkGender = checkGender(HeroOFTD, guessedHeroOFTD);
         String checkHealth = checkHealth(HeroOFTD, guessedHeroOFTD);
         String checkAge = checkAge(HeroOFTD, guessedHeroOFTD);
-        String checkRole = checkRole(HeroOFTD,guessedHeroOFTD);
+        String checkRole = checkRole(HeroOFTD, guessedHeroOFTD);
         String checkAffiliation = checkAffiliation(HeroOFTD, guessedHeroOFTD);
         String checkComposition = checkComposition(HeroOFTD, guessedHeroOFTD);
         String checkSecondComposition = checkSecondComposition(HeroOFTD, guessedHeroOFTD);
@@ -150,14 +158,14 @@ public class HeroService {
                 .guessedHealth((Integer) guessedHeroOFTD.get("heroHealth"))
                 .guessedRole((String) guessedHeroOFTD.get("heroRole"))
                 .guessedAge((Integer) guessedHeroOFTD.get("heroAge"))
-                .guessedAffiliation((String)  guessedHeroOFTD.get("heroAffiliation"))
-                .guessedComposition((String)  guessedHeroOFTD.get("heroComp"))
-                .guessedComposition2((String)  guessedHeroOFTD.get("heroComp2"))
+                .guessedAffiliation((String) guessedHeroOFTD.get("heroAffiliation"))
+                .guessedComposition((String) guessedHeroOFTD.get("heroComp"))
+                .guessedComposition2((String) guessedHeroOFTD.get("heroComp2"))
                 .guessedLaunchYear((Integer) guessedHeroOFTD.get("heroYear"))
                 .build();
     }
 
-    public String checkName(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD ) {
+    public String checkName(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
         String correctName = (String) HeroOFTD.get("heroName");
         String guessedName = (String) guessedHeroOFTD.get("heroName");
@@ -171,7 +179,7 @@ public class HeroService {
 
     }
 
-    public String checkGender(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
+    public String checkGender(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
         String correctGender = (String) HeroOFTD.get("heroGender");
         String guessedGender = (String) guessedHeroOFTD.get("heroGender");
@@ -187,7 +195,7 @@ public class HeroService {
 
     }
 
-    public String checkHealth(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
+    public String checkHealth(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
         Integer correctHealth = (Integer) HeroOFTD.get("heroHealth");
         Integer guessedHealth = (Integer) guessedHeroOFTD.get("heroHealth");
@@ -203,7 +211,7 @@ public class HeroService {
 
     }
 
-    public String checkAge(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
+    public String checkAge(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String Check;
         Integer correctAge = (Integer) HeroOFTD.get("heroAge");
         Integer guessedAge = (Integer) guessedHeroOFTD.get("heroAge");
@@ -218,7 +226,7 @@ public class HeroService {
         return Check;
     }
 
-    public String checkRole(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
+    public String checkRole(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
         String correctRole = (String) HeroOFTD.get("heroRole");
         String guessedRole = (String) guessedHeroOFTD.get("heroRole");
@@ -231,7 +239,7 @@ public class HeroService {
         return check;
     }
 
-    public String checkAffiliation(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
+    public String checkAffiliation(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String Check;
         String correctAffiliation = (String) HeroOFTD.get("heroAffiliation");
         String guessedAffiliation = (String) guessedHeroOFTD.get("heroAffiliation");
@@ -245,7 +253,7 @@ public class HeroService {
 
     }
 
-    public String checkComposition(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
+    public String checkComposition(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
         String correctComposition = (String) HeroOFTD.get("heroComp");
         String guessedComposition = (String) guessedHeroOFTD.get("heroComp");
@@ -259,7 +267,7 @@ public class HeroService {
         return check;
     }
 
-    public String checkSecondComposition(Map<Object, Object > HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
+    public String checkSecondComposition(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
         String correctComposition = (String) HeroOFTD.get("heroComp2");
         String guessedComposition = (String) guessedHeroOFTD.get("heroComp2");
@@ -273,7 +281,7 @@ public class HeroService {
         return check;
     }
 
-    public String checkLaunchYear(Map<Object, Object>HeroOFTD, Map<Object, Object>guessedHeroOFTD) {
+    public String checkLaunchYear(Map<Object, Object> HeroOFTD, Map<Object, Object> guessedHeroOFTD) {
         String check;
         Integer correctYear = (Integer) HeroOFTD.get("heroYear");
         Integer guessedYear = (Integer) guessedHeroOFTD.get("heroYear");

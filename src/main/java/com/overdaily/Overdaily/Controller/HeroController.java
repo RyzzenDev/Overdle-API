@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(
-        origins = "https://overdle.vercel.app",
+        origins = "http://localhost:8081",
         methods = { RequestMethod.GET, RequestMethod.POST }
 )
 @RequestMapping("/Heroes")
@@ -41,7 +41,7 @@ public class HeroController {
         return ResponseEntity.ok(heroService.ListDB());
     }
     @GetMapping("/Randomize")
-    public ResponseEntity<String> Randomizer(){
+    public ResponseEntity<String> RandomizeID() {
         return ResponseEntity.ok(heroService.RandomizeID());
     }
     @PostMapping("/Guess/{guessedHero}")
