@@ -59,4 +59,6 @@ This project leverages modern software architecture, utilizing **Java 21** and *
 
 ## 📝 License
 
-This project is for educational purposes and is not affiliated with Blizzard Entertainment. Overwatch is a trademark of Blizzard Entertainment.
+The code in this repository is licensed under the GNU General Public License, Version 3.
+
+Disclaimer: OverDaily is a non-official, fan-made project created as a tribute to the Overwatch™ universe. Overwatch™ and all related intellectual properties (characters, names, art, sounds, etc.) are registered trademarks and property of Blizzard Entertainment, Inc.©. The project is entirely free and non-profit.
