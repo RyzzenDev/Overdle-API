@@ -107,7 +107,6 @@ public class HeroService {
     @EventListener(ApplicationReadyEvent.class)
     public String RandomizeID() {
         int count = (int) heroRepository.count()+1;
-
         System.out.println("Randomizing Hero");
         Random NumeroRandom = new Random();
         id = NumeroRandom.nextInt(count);
