@@ -1,9 +1,13 @@
+![Logo do OverDaily](Overdle.svg)
 # 🎯 Overdle API
-
 > The backend engine powering **Overdle** — the ultimate Overwatch guessing game.
 
 **Overdle** is a daily challenge game inspired by the popular *Valdle*, but completely dedicated to the Overwatch universe. Every day, players are challenged to identify a hero based on specific clues such as **Affiliation**, **Role**, **Launch Year**, and **Many more**.
 
+### ⚛️ Frontend Source Code
+
+If you are looking for the source code for the Next.js application, you can find the repository here:
+[👉 OverDaily Frontend Repository](https://github.com/RyzzenDev/OverdleWeb)
 ## 🎮 Play Now
 
 The frontend is live! You can test your knowledge right now at:
@@ -55,4 +59,6 @@ This project leverages modern software architecture, utilizing **Java 21** and *
 
 ## 📝 License
 
-This project is for educational purposes and is not affiliated with Blizzard Entertainment. Overwatch is a trademark of Blizzard Entertainment.
+The code in this repository is licensed under the GNU General Public License, Version 3.
+
+Disclaimer: OverDaily is a non-official, fan-made project created as a tribute to the Overwatch™ universe. Overwatch™ and all related intellectual properties (characters, names, art, sounds, etc.) are registered trademarks and property of Blizzard Entertainment, Inc.©. The project is entirely free and non-profit.
