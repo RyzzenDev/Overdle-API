@@ -4,12 +4,10 @@ import com.overdaily.Overdaily.DTO.HeroSearchDTO;
 import com.overdaily.Overdaily.DTO.ListHeroesDTO;
 import com.overdaily.Overdaily.DTO.ServerGuessResponseDTO;
 import com.overdaily.Overdaily.Repository.HeroRepository;
-import com.overdaily.Overdaily.entity.Hero;
+import com.overdaily.Overdaily.entity.Server;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -21,13 +19,14 @@ import org.springframework.context.event.EventListener;
 
 @Service
 public class HeroService {
-
+    private final serverServices serverServices;
     private final HeroRepository heroRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public HeroService(HeroRepository heroRepository, RedisTemplate<String, Object> redisTemplate) {
+    public HeroService(HeroRepository heroRepository, RedisTemplate<String, Object> redisTemplate, serverServices serverServices) {
         this.heroRepository = heroRepository;
         this.redisTemplate = redisTemplate;
+        this.serverServices = serverServices;
     }
 
     int id;
@@ -76,8 +75,8 @@ public class HeroService {
             list.add(buildhero);
             i++;
         } while (i <= DBSize);
-
         return list;
+
     }
 
     public HeroSearchDTO SearchID(Integer id) {
@@ -107,9 +106,11 @@ public class HeroService {
     @Scheduled(cron = "0 0 0 * * ?", zone = "UTC")
     @EventListener(ApplicationReadyEvent.class)
     public String RandomizeID() {
+        int count = (int) heroRepository.count()+1;
+
         System.out.println("Randomizing Hero");
         Random NumeroRandom = new Random();
-        id = NumeroRandom.nextInt(44);
+        id = NumeroRandom.nextInt(count);
         LocalTime time = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String timeFormatted = time.format(formatter);

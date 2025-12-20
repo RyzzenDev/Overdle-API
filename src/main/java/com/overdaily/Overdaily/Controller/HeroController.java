@@ -56,4 +56,4 @@ public class HeroController {
     public ResponseEntity<Integer> getGameCount(){
         return ResponseEntity.ok(heroService.GameCount());
     }
-}
+    }
