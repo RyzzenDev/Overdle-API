@@ -2,6 +2,7 @@ package com.overdaily.Overdaily.service;
 
 import com.overdaily.Overdaily.Repository.HeroRepository;
 import com.overdaily.Overdaily.Repository.ServerRepository;
+import com.overdaily.Overdaily.entity.Hero;
 import com.overdaily.Overdaily.entity.Server;
 import org.springframework.stereotype.Service;
 
@@ -48,4 +49,11 @@ public class serverServices {
         serverRepository.save(server);
         return " Hero Selected at: " + date +" TESTE SERVER " +server;
     }
+
+    public int herocount(){
+
+        return (int) heroRepository.count();
+    }
+
 }
+

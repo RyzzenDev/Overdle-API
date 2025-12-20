@@ -1,12 +1,18 @@
 package com.overdaily.Overdaily.Controller;
 
+import com.overdaily.Overdaily.entity.Hero;
 import com.overdaily.Overdaily.service.serverServices;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+
+@CrossOrigin(
+        origins = "https://overdle.vercel.app",
+        methods = { RequestMethod.GET, RequestMethod.POST }
+)
 
 @RequestMapping("/Service")
 public class ServerController {
@@ -19,6 +25,11 @@ public class ServerController {
     @GetMapping("/Randomize")
     public ResponseEntity<String> Randomize(){
         return ResponseEntity.ok(serverServices.RandomizeID());
+    }
+
+    @GetMapping("/Count")
+    public ResponseEntity<Integer> HeroCount(){
+        return ResponseEntity.ok(serverServices.herocount());
     }
 /*
     @GetMapping("/DB")
