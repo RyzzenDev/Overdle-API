@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 
 @CrossOrigin(
-        origins = "https://overdle.vercel.app",
+        origins = {"https://www.overdle.com", "https://overdle.com"},
         methods = { RequestMethod.GET, RequestMethod.POST }
 )
 
