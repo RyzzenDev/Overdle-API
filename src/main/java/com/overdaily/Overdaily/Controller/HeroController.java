@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(
-        origins = "https://www.overdle.com",
+        origins = "https://www.overdle.com, https://overdle.com ",
         methods = { RequestMethod.GET, RequestMethod.POST }
 )
 @RequestMapping("/Heroes")
