@@ -12,7 +12,7 @@ If you are looking for the source code for the Next.js application, you can find
 
 The frontend is live! You can test your knowledge right now at:
 
-### [👉 overdle.vercel.app](https://overdle.vercel.app)
+### [👉 overdle.vercel.app](https://overdle.com)
 
 ---
 
